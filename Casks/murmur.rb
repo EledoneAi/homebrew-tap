@@ -5,24 +5,24 @@ cask "murmur" do
   on_macos do
     on_arm do
       sha256 "98ff482af06f3e6d2f7680b21abb6d5ad00320a013e638bf59f5fdc38579213b"
-      url "https://github.com/EledoneAi/murmur/releases/download/v1.0.0/murmur-darwin-arm64"
+      url "https://github.com/EledoneAi/murmur/releases/download/v#{version}/murmur-darwin-arm64"
       binary "murmur-darwin-arm64", target: "murmur"
     end
     on_intel do
       sha256 "29c7087817e14d4cfb6fae9820f1d12e3715da0529404b7ff7633582098e0de1"
-      url "https://github.com/EledoneAi/murmur/releases/download/v1.0.0/murmur-darwin-amd64"
+      url "https://github.com/EledoneAi/murmur/releases/download/v#{version}/murmur-darwin-amd64"
       binary "murmur-darwin-amd64", target: "murmur"
     end
   end
   on_linux do
     on_arm do
       sha256 "39b49f7136dcadd2cd4bfde85e5e1029ae4771414e8395c27b8d2b45472cd859"
-      url "https://github.com/EledoneAi/murmur/releases/download/v1.0.0/murmur-linux-arm64"
+      url "https://github.com/EledoneAi/murmur/releases/download/v#{version}/murmur-linux-arm64"
       binary "murmur-linux-arm64", target: "murmur"
     end
     on_intel do
       sha256 "76404107af8ed370e1b31936b39303fdd7299ba8fb5038a6e0270117af13616a"
-      url "https://github.com/EledoneAi/murmur/releases/download/v1.0.0/murmur-linux-amd64"
+      url "https://github.com/EledoneAi/murmur/releases/download/v#{version}/murmur-linux-amd64"
       binary "murmur-linux-amd64", target: "murmur"
     end
   end
@@ -35,9 +35,9 @@ cask "murmur" do
     skip "Auto-generated on release."
   end
 
-  postflight do
-    if OS.mac?
-      system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", staged_path.to_s]
+  postflight_steps do
+    on_macos do
+      run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}"]
     end
   end
 
